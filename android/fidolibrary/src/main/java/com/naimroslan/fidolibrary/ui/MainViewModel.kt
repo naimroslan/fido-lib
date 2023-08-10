@@ -14,34 +14,23 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext.kotlin_version = '1.8.22'
-    repositories {
-        google()
-        mavenCentral()
+package com.example.android.fido2.ui
+
+import androidx.lifecycle.ViewModel
+import com.example.android.fido2.repository.AuthRepository
+import com.google.android.gms.fido.fido2.Fido2ApiClient
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
+
+    val signInState = repository.signInState
+
+    fun setFido2ApiClient(client: Fido2ApiClient?) {
+        repository.setFido2APiClient(client)
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.47'
-    }
-}
 
-ext {
-    // Project
-
-    // FIDO Library Info
-    libVersionCode = 1
-    libVersionName = '1.0.0'
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

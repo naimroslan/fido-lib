@@ -14,34 +14,19 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext.kotlin_version = '1.8.22'
-    repositories {
-        google()
-        mavenCentral()
+package com.example.android.fido2.api
+
+import okhttp3.Interceptor
+import okhttp3.Response
+
+internal class AddHeaderInterceptor(private val userAgent: String) : Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        return chain.proceed(
+            chain.request().newBuilder()
+                .header("User-Agent", userAgent)
+                .header("X-Requested-With", "XMLHttpRequest")
+                .build()
+        )
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.47'
-    }
-}
-
-ext {
-    // Project
-
-    // FIDO Library Info
-    libVersionCode = 1
-    libVersionName = '1.0.0'
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

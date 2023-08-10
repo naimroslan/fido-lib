@@ -14,34 +14,16 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext.kotlin_version = '1.8.22'
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.47'
-    }
+package com.example.android.fido2
+
+import android.util.Base64
+
+private const val BASE64_FLAG = Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE
+
+fun ByteArray.toBase64(): String {
+    return Base64.encodeToString(this, BASE64_FLAG)
 }
 
-ext {
-    // Project
-
-    // FIDO Library Info
-    libVersionCode = 1
-    libVersionName = '1.0.0'
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+fun String.decodeBase64(): ByteArray {
+    return Base64.decode(this, BASE64_FLAG)
 }
